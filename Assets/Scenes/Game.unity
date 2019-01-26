@@ -1340,7 +1340,7 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 1923362153}
+  m_LookAt: {fileID: 0}
   m_Follow: {fileID: 478905035}
   m_Lens:
     FieldOfView: 40
@@ -1384,7 +1384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35f22d90852b3d247b6443b9f5e06abc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  room: {fileID: 1321605444}
+  room: {fileID: 1923362154}
   cameraFollowTarget: {fileID: 478905035}
 --- !u!1 &179943210
 GameObject:
