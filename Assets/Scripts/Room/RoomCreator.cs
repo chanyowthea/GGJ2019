@@ -19,7 +19,7 @@ public class RoomCreator : MonoBehaviour
 
     private void Start()
     {
-        SetData(20);
+        SetData(8);
     }
 
     public void SetData(int roomSize = 10)
