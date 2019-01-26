@@ -31,7 +31,7 @@ public class Room : MonoBehaviour {
 		int pointer1 = -1, pointer2 = -1, pointer3 = -1;
 
 		for (int i = 0; i < wallList.Count; i++) {
-			var dis = (Camera.main.transform.position - wallList[i].transform.position).sqrMagnitude;
+			var dis = (cameraRect.position - wallList[i].transform.position).sqrMagnitude;
 			if (dis > dis3) continue;
 			if (dis > dis2) {
 				dis3 = dis;
@@ -87,10 +87,17 @@ public class Room : MonoBehaviour {
 		StartCoroutine(RotateRoutine(axis, (int) (ConstValue._RoomRotateSpeed)));
 	}
 
+	// public void OperateMeshLoop(MeshRenderer mesh, bool b) {
+	// 	if (mesh != null) mesh.enabled = b;
+	// 	var meshes = mesh.GetComponentsInChildren<MeshRenderer>();
+	// 	foreach (var subItem in meshes) {
+	// 		OperateMeshLoop(subItem, b);
+	// 	}
+	// }
+
 	public void HideWall() {
 		Debug.Log("Trigger Hide Wall");
 		foreach (var item in hidenWalls) {
-
 			var mesh = item.GetComponent<MeshRenderer>();
 			if (mesh != null) mesh.enabled = true;
 
@@ -116,21 +123,21 @@ public class Room : MonoBehaviour {
 		while (value < 90) {
 			yield return null;
 			if (axis == ERotateAxis.X) {
-				transform.RotateAround(transform.position, transform.right, delta);
+				rotateTarget.transform.RotateAround(transform.position, transform.right, delta);
 			} else if (axis == ERotateAxis.Y) {
-				transform.RotateAround(transform.position, transform.up, delta);
+				rotateTarget.transform.RotateAround(transform.position, transform.up, delta);
 			} else if (axis == ERotateAxis.Z) {
-				transform.RotateAround(transform.position, transform.forward, delta);
+				rotateTarget.transform.RotateAround(transform.position, transform.forward, delta);
 			}
 			value += delta;
 		}
 		if (value != 90) {
 			if (axis == ERotateAxis.X) {
-				transform.RotateAround(transform.position, transform.right, 90 - value);
+				rotateTarget.transform.RotateAround(transform.position, transform.right, 90 - value);
 			} else if (axis == ERotateAxis.Y) {
-				transform.RotateAround(transform.position, transform.up, 90 - value);
+				rotateTarget.transform.RotateAround(transform.position, transform.up, 90 - value);
 			} else if (axis == ERotateAxis.Z) {
-				transform.RotateAround(transform.position, transform.forward, 90 - value);
+				rotateTarget.transform.RotateAround(transform.position, transform.forward, 90 - value);
 			}
 		}
 

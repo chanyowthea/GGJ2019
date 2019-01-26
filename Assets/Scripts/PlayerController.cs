@@ -46,6 +46,7 @@ public class PlayerController : MonoBehaviour {
 		if (this.room == room || room == null) return;
 
 		this.room = room;
+		transform.parent = this.room.rotateTarget.transform;
 
 		// room.HideWall();
 

@@ -8,7 +8,7 @@ public class RoomManager : MonoBehaviour {
 
 	private void Awake() {
 		foreach (var item in roomList) {
-			
+			item.rotateTarget.SetActive(false);
 		}
 	}
 }
