@@ -1,6 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
+
+public enum ERotateAxis {
+	X,
+	Y,
+	Z,
+}
 
 public class Room : MonoBehaviour {
 
@@ -11,7 +18,8 @@ public class Room : MonoBehaviour {
 	// 5  0 -- 3
 	//  \ |   |
 	//   4 -- 7
-	public List<Transform> rectList = new List<Transform>();
+	public Transform cameraRect;
+	public GameObject rotateTarget;
 
 	public List<GameObject> wallList = new List<GameObject>(); // up, down, front, back, left, right
 
@@ -55,38 +63,67 @@ public class Room : MonoBehaviour {
 		list.Add(wallList[pointer1]);
 		list.Add(wallList[pointer2]);
 		list.Add(wallList[pointer3]);
-		
 
-		// switch (d) {
-		// 	case 0:
-		// 		list.Add(wallList[0]);
-		// 		list.Add(wallList[3]);
-		// 		list.Add(wallList[4]);
-		// 		return list;
-		// 	case 1:
-		// 		list.Add(wallList[0]);
-		// 		list.Add(wallList[2]);
-		// 		list.Add(wallList[4]);
-		// 		return list;
-		// 	case 2:
-		// 		list.Add(wallList[0]);
-		// 		list.Add(wallList[2]);
-		// 		list.Add(wallList[5]);
-		// 		return list;
-		// 	case 3:
-		// 		list.Add(wallList[0]);
-		// 		list.Add(wallList[5]);
-		// 		list.Add(wallList[3]);
-		// 		return list;
-		// }
 		return list;
 	}
 
 	public void OnRoomIn() {
-		Debug.Log(transform.name + " In ");
+		Debug.Log("Enter " + transform.name);
+		var player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+		player.EnterRoom(this);
 	}
 
 	private void Awake() {
 		detector.room = this;
+	}
+
+	bool _IsPlayingAnim;
+	private List<GameObject> hidenWalls = new List<GameObject>();
+
+	public void Rotate(ERotateAxis axis) {
+		if (_IsPlayingAnim) {
+			return;
+		}
+		StartCoroutine(RotateRoutine(axis, (int) (ConstValue._RoomRotateSpeed)));
+	}
+
+	public void HideWall() {
+		Debug.Log("Trigger Hide Wall");
+		foreach (var item in hidenWalls) {
+			item.SetActive(true);
+		}
+		hidenWalls = GetWallFromDirection();
+		foreach (var item in hidenWalls) {
+			item.SetActive(false);
+		}
+	}
+
+	IEnumerator RotateRoutine(ERotateAxis axis, int delta) {
+		_IsPlayingAnim = true;
+		int value = 0;
+		while (value < 90) {
+			yield return null;
+			if (axis == ERotateAxis.X) {
+				transform.RotateAround(transform.position, transform.right, delta);
+			} else if (axis == ERotateAxis.Y) {
+				transform.RotateAround(transform.position, transform.up, delta);
+			} else if (axis == ERotateAxis.Z) {
+				transform.RotateAround(transform.position, transform.forward, delta);
+			}
+			value += delta;
+		}
+		if (value != 90) {
+			if (axis == ERotateAxis.X) {
+				transform.RotateAround(transform.position, transform.right, 90 - value);
+			} else if (axis == ERotateAxis.Y) {
+				transform.RotateAround(transform.position, transform.up, 90 - value);
+			} else if (axis == ERotateAxis.Z) {
+				transform.RotateAround(transform.position, transform.forward, 90 - value);
+			}
+		}
+
+		HideWall();
+
+		_IsPlayingAnim = false;
 	}
 }
