@@ -1186,6 +1186,9 @@ MonoBehaviour:
   _FrontLeftCorner: {fileID: 1225935536}
   _BackLeftCorner: {fileID: 2007080662}
   _RoomCenter: {fileID: 1034158616}
+  _RoomCamera: {fileID: 321867235}
+  _RoomRotator: {fileID: 490123097}
+  RotateState: {x: 0, y: 0, z: 0}
 --- !u!1 &529193620
 GameObject:
   m_ObjectHideFlags: 0
@@ -2230,7 +2233,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1216713127
 Transform:
   m_ObjectHideFlags: 0
@@ -2373,7 +2376,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1233794900
 Transform:
   m_ObjectHideFlags: 0
