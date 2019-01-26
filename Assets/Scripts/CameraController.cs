@@ -9,6 +9,7 @@ public class CameraController : MonoBehaviour {
 
 	public Room room;
 	private PlayerController player;
+	public Transform cameraFollowTarget;
 
 	public void UpdateRoom(Room room) {
 		this.room.rotateTarget.gameObject.SetActive(false);
@@ -16,10 +17,8 @@ public class CameraController : MonoBehaviour {
 		this.room.rotateTarget.gameObject.SetActive(true);
 		transform.position = room.cameraRect.transform.position;
 		vc.LookAt = room.transform;
-	}
-
-	private void Update() {
-
+		cameraFollowTarget.position = room.transform.position;
+		room.HideWall();
 	}
 
 	private void Awake() {

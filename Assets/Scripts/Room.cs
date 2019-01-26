@@ -90,11 +90,23 @@ public class Room : MonoBehaviour {
 	public void HideWall() {
 		Debug.Log("Trigger Hide Wall");
 		foreach (var item in hidenWalls) {
-			item.SetActive(true);
+
+			var mesh = item.GetComponent<MeshRenderer>();
+			if (mesh != null) mesh.enabled = true;
+
+			var meshes = item.GetComponentsInChildren<MeshRenderer>();
+			foreach (var subItem in meshes) {
+				if (subItem != null) subItem.enabled = true;
+			}
 		}
 		hidenWalls = GetWallFromDirection();
 		foreach (var item in hidenWalls) {
-			item.SetActive(false);
+			var mesh = item.GetComponent<MeshRenderer>();
+			if (mesh != null) mesh.enabled = false;
+			var meshes = item.GetComponentsInChildren<MeshRenderer>();
+			foreach (var subItem in meshes) {
+				if (subItem != null) subItem.enabled = false;
+			}
 		}
 	}
 

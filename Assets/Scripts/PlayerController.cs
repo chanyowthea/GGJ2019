@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
 	public float speed = 30f;
-	public CameraController cameraState;
+	public CameraController cam;
 	private Rigidbody rb;
 
 	[HideInInspector]
@@ -43,10 +43,13 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void EnterRoom(Room room) {
-		if (this.room == room) return;
+		if (this.room == room || room == null) return;
 
 		this.room = room;
-		room.HideWall();
+
+		// room.HideWall();
+
+		cam.UpdateRoom(room);
 
 	}
 
