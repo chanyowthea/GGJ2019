@@ -6,10 +6,14 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
 	public float speed = 30f;
-	public CameraRotate cameraState;
+	public CameraController cameraState;
 	private Rigidbody rb;
 
+	[HideInInspector]
+	public Room room;
+
 	private void Awake() {
+		room = null;
 		rb = GetComponent<Rigidbody>();
 	}
 
@@ -19,30 +23,30 @@ public class PlayerController : MonoBehaviour {
 
 		if (h != 0 || v != 0) {
 
-			Vector3 dir;
-			switch (cameraState.rectPointer) {
-				case 0:
-					dir = new Vector3(v, 0, -h);
-					break;
-				case 1:
-					dir = new Vector3(-h, 0, -v);
-					break;
-				case 2:
-					dir = new Vector3(-v, 0, h);
-					break;
-				case 3:
-					dir = new Vector3(h, 0, v);
-					break;
-				default:
-					dir = Vector3.zero;
-					break;
-			}
+			Vector3 dir = new Vector3(h, 0, v);
 
 			if (dir.magnitude > 1) {
 				dir = dir.normalized;
 			}
 			rb.MovePosition(transform.position + dir * speed * Time.deltaTime);
 		}
+
+		if (Input.GetKeyDown(KeyCode.Y)) {
+			room.Rotate(ERotateAxis.Y);
+		}
+		if (Input.GetKeyDown(KeyCode.X)) {
+			room.Rotate(ERotateAxis.X);
+		}
+		if (Input.GetKeyDown(KeyCode.Z)) {
+			room.Rotate(ERotateAxis.Z);
+		}
+	}
+
+	public void EnterRoom(Room room) {
+		if (this.room == room) return;
+
+		this.room = room;
+		room.HideWall();
 
 	}
 
