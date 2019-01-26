@@ -7,10 +7,12 @@ public class PlayerController : MonoBehaviour {
 
 	public float speed = 30f;
 	public CameraController cam;
+	private bool isFloating = false;
 	private Rigidbody rb;
 
 	[HideInInspector]
 	public Room room;
+	public GameObject objFlamePrefab;
 
 	private void Awake() {
 		room = null;
@@ -18,6 +20,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	private void Update() {
+		if (isFloating) return;
 		var h = Input.GetAxis("Horizontal");
 		var v = Input.GetAxis("Vertical");
 
@@ -32,13 +35,26 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		if (Input.GetKeyDown(KeyCode.Y)) {
-			room.Rotate(ERotateAxis.Y);
+			if (Input.GetKey(KeyCode.LeftShift)) {
+				room.Rotate(ERotateAxis.AY);
+			} else {
+				room.Rotate(ERotateAxis.Y);
+			}
+
 		}
 		if (Input.GetKeyDown(KeyCode.X)) {
-			room.Rotate(ERotateAxis.X);
+			if (Input.GetKey(KeyCode.LeftShift)) {
+				room.Rotate(ERotateAxis.AX);
+			} else {
+				room.Rotate(ERotateAxis.X);
+			}
 		}
 		if (Input.GetKeyDown(KeyCode.Z)) {
-			room.Rotate(ERotateAxis.Z);
+			if (Input.GetKey(KeyCode.LeftShift)) {
+				room.Rotate(ERotateAxis.AZ);
+			} else {
+				room.Rotate(ERotateAxis.Z);
+			}
 		}
 	}
 
@@ -51,7 +67,56 @@ public class PlayerController : MonoBehaviour {
 		// room.HideWall();
 
 		cam.UpdateRoom(room);
+	}
 
+	public void Floating() {
+		isFloating = true;
+		rb.velocity = Vector3.zero;
+		rb.useGravity = false;
+	}
+
+	public void UnFloating() {
+		isFloating = false;
+		rb.useGravity = true;
+	}
+
+	public void PickObject(ObjectToPick objInfo) {
+
+		objInfo.transform.parent = transform;
+		objList.Add(objInfo);
+		objInfo.BeCarried(transform, transform.up * ((capacity - spaceLeft + 1) * 5f) * objInfo.spaceRequired);
+		spaceLeft -= objInfo.spaceRequired;
+	}
+	public void PlaceObject(GameObject flame) {
+		foreach (var item in objList) {
+			if (item.flame == flame) {
+				spaceLeft += item.spaceRequired;
+				item.BePlaced();
+				return;
+			}
+		}
+
+	}
+
+	public int capacity = 1;
+	public int spaceLeft = 1;
+	[HideInInspector]
+	public List<ObjectToPick> objList = new List<ObjectToPick>();
+
+	private void OnCollisionEnter(Collision other) {
+		if (other.gameObject.tag == "ObjectToPick") {
+			var objInfo = other.gameObject.GetComponent<ObjectToPick>();
+			if (objInfo != null && spaceLeft >= objInfo.spaceRequired) {
+				PickObject(objInfo);
+			}
+		}
+		// Debug.Log(other.gameObject.name);
+	}
+
+	private void OnTriggerEnter(Collider other) {
+		if (other.gameObject.tag == "ObjectFlame") {
+			PlaceObject(other.gameObject);
+		}
 	}
 
 }

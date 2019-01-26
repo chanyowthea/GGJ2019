@@ -4,8 +4,7 @@ using Cinemachine;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour {
-
-	private CinemachineVirtualCamera vc;
+	// private CinemachineVirtualCamera vc;
 
 	public Room room;
 	private PlayerController player;
@@ -51,6 +50,6 @@ public class CameraController : MonoBehaviour {
 
 	private void Awake() {
 		player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-		vc = GetComponent<CinemachineVirtualCamera>();
+		// vc = GetComponent<CinemachineVirtualCamera>();
 	}
 }
