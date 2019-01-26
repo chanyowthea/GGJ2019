@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System;
 
 public enum ERotateAxis
 {
@@ -13,6 +14,9 @@ public enum ERotateAxis
 public class RoomRotator : MonoBehaviour
 {
     bool _IsPlayingAnim;
+    public Action<ERotateAxis, bool> _OnRotateStart;
+    public Action<float> _OnRotating;
+    public Action _OnRotateEnd;
 
     private void Start()
     {
@@ -24,13 +28,17 @@ public class RoomRotator : MonoBehaviour
 
     }
 
-    public void Rotate(ERotateAxis axis)
+    public void Rotate(ERotateAxis axis, bool isClockWise = true)
     {
         if (_IsPlayingAnim)
         {
             return;
         }
-        StartCoroutine(RotateRoutine(axis, (int)(ConstValue._RoomRotateSpeed)));
+        StartCoroutine(RotateRoutine(axis, (int)(ConstValue._RoomRotateSpeed * (isClockWise ? 1 : -1))));
+        if (_OnRotateStart != null)
+        {
+            _OnRotateStart(axis, isClockWise);
+        }
     }
 
     IEnumerator RotateRoutine(ERotateAxis axis, int delta)
@@ -53,6 +61,10 @@ public class RoomRotator : MonoBehaviour
                 this.transform.Rotate(new Vector3(0, 0, delta));
             }
             value += delta;
+            if (_OnRotating != null)
+            {
+                _OnRotating(value / 90f);
+            }
         }
         if (value != 90)
         {
@@ -70,5 +82,9 @@ public class RoomRotator : MonoBehaviour
             }
         }
         _IsPlayingAnim = false;
+        if (_OnRotateEnd != null)
+        {
+            _OnRotateEnd();
+        }
     }
 }
