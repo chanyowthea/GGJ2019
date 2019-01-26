@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public enum ERotateAxis
 {
@@ -11,20 +12,63 @@ public enum ERotateAxis
 
 public class RoomRotator : MonoBehaviour
 {
-    public void Rotate(int angle, ERotateAxis axis)
+    bool _IsPlayingAnim;
+
+    private void Start()
     {
-        var a = this.transform.localEulerAngles;
-        if (axis == ERotateAxis.X)
+
+    }
+
+    private void Update()
+    {
+
+    }
+
+    public void Rotate(ERotateAxis axis)
+    {
+        if (_IsPlayingAnim)
         {
-            this.transform.Rotate(angle, 0, 0);
+            return;
         }
-        else if (axis == ERotateAxis.Y)
+        StartCoroutine(RotateRoutine(axis, (int)(ConstValue._RoomRotateSpeed)));
+    }
+
+    IEnumerator RotateRoutine(ERotateAxis axis, int delta)
+    {
+        _IsPlayingAnim = true;
+        int value = 0;
+        while (value < 90)
         {
-            this.transform.Rotate(0, angle, 0);
+            yield return null;
+            if (axis == ERotateAxis.X)
+            {
+                this.transform.Rotate(new Vector3(delta, 0, 0));
+            }
+            else if (axis == ERotateAxis.Y)
+            {
+                this.transform.Rotate(new Vector3(0, delta, 0));
+            }
+            else if (axis == ERotateAxis.Z)
+            {
+                this.transform.Rotate(new Vector3(0, 0, delta));
+            }
+            value += delta;
         }
-        else if (axis == ERotateAxis.Z)
+        if (value != 90)
         {
-            this.transform.Rotate(0, 0, angle);
+            if (axis == ERotateAxis.X)
+            {
+                this.transform.Rotate(new Vector3(90 - value, 0, 0));
+            }
+            else if (axis == ERotateAxis.Y)
+            {
+                this.transform.Rotate(new Vector3(0, 90 - value, 0));
+            }
+            else if (axis == ERotateAxis.Z)
+            {
+                this.transform.Rotate(new Vector3(0, 0, 90 - value));
+            }
         }
+        _IsPlayingAnim = false;
     }
 }
