@@ -70,6 +70,7 @@ public class ObjectToPick : MonoBehaviour {
 					break;
 				case 3:
 					roomBelongTo.UnlockDoor(2);
+					roomBelongTo.manager.End();
 					break;
 			}
 			gameObject.SetActive(false);

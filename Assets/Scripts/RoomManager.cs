@@ -5,11 +5,16 @@ using UnityEngine;
 public class RoomManager : MonoBehaviour {
 
 	public PlayerController player;
+	public EndingImage ending;
 
 	public List<Room> roomList = new List<Room>();
 	public Material doorOpenedMat;
 	public Material doorClosedMat;
 	public Material doorClosedMarkMat;
+
+	public void End() {
+		ending.TriggerEnding();
+	}
 
 	private void Awake() {
 		foreach (var item in roomList) {

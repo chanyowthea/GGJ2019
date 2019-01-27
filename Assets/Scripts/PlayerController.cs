@@ -103,8 +103,8 @@ public class PlayerController : MonoBehaviour {
 
 	}
 
-	public int capacity = 1;
-	public int spaceLeft = 1;
+	public int capacity = 10;
+	public int spaceLeft = 10;
 	[HideInInspector]
 	public List<ObjectToPick> objList = new List<ObjectToPick>();
 
