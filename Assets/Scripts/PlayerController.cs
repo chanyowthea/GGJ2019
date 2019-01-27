@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour {
@@ -14,9 +15,17 @@ public class PlayerController : MonoBehaviour {
 	public Room room;
 	public GameObject objFlamePrefab;
 
+	//public AudioClip audioClip;
+	private AudioSource audioSource;
+
 	private void Awake() {
 		room = null;
 		rb = GetComponent<Rigidbody>();
+		audioSource = GetComponent<AudioSource>();
+	}
+
+	public void PlaySound() {
+		audioSource.Play();
 	}
 
 	private void Update() {
@@ -34,27 +43,23 @@ public class PlayerController : MonoBehaviour {
 			rb.MovePosition(transform.position + dir * speed * Time.deltaTime);
 		}
 
-		if (Input.GetKeyDown(KeyCode.Y)) {
-			if (Input.GetKey(KeyCode.LeftShift)) {
-				room.Rotate(ERotateAxis.AY);
-			} else {
-				room.Rotate(ERotateAxis.Y);
-			}
-
+		if (Input.GetKeyDown(KeyCode.U)) {
+			room.Rotate(ERotateAxis.Y);
 		}
-		if (Input.GetKeyDown(KeyCode.X)) {
-			if (Input.GetKey(KeyCode.LeftShift)) {
-				room.Rotate(ERotateAxis.AX);
-			} else {
-				room.Rotate(ERotateAxis.X);
-			}
+		if (Input.GetKey(KeyCode.O)) {
+			room.Rotate(ERotateAxis.AY);
 		}
-		if (Input.GetKeyDown(KeyCode.Z)) {
-			if (Input.GetKey(KeyCode.LeftShift)) {
-				room.Rotate(ERotateAxis.AZ);
-			} else {
-				room.Rotate(ERotateAxis.Z);
-			}
+		if (Input.GetKeyDown(KeyCode.I)) {
+			room.Rotate(ERotateAxis.X);
+		}
+		if (Input.GetKey(KeyCode.K)) {
+			room.Rotate(ERotateAxis.AX);
+		}
+		if (Input.GetKeyDown(KeyCode.J)) {
+			room.Rotate(ERotateAxis.Z);
+		}
+		if (Input.GetKey(KeyCode.L)) {
+			room.Rotate(ERotateAxis.AZ);
 		}
 	}
 

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RoomManager : MonoBehaviour {
 
+	public PlayerController player;
+
 	public List<Room> roomList = new List<Room>();
 	public Material doorOpenedMat;
 	public Material doorClosedMat;
@@ -31,14 +33,18 @@ public class RoomManager : MonoBehaviour {
 		if (targetDegree == 0) {
 			if (degree > 1 && degree < 359) return false;
 		}
-		if (degree > 0 && degree < targetDegree - 1) return false;
-		if (degree < 360 && degree > targetDegree + 1) return false;
-		return true;
+		if (degree > targetDegree - 1 && degree < targetDegree + 1) return true;
+		else return false;
+		// if (degree > 0 && degree < targetDegree - 1) return false;
+		// if (degree < 360 && degree > targetDegree + 1) return false;
+		// return true;
 	}
 
 	public void CheckDoorState(int roomNo) {
+
 		var room = roomList[roomNo];
 		var eulerAngle = room.rotateTarget.transform.eulerAngles;
+		Debug.Log("CheckDoorState " + eulerAngle);
 		room.CloseDoors(doorClosedMat);
 		switch (roomNo) {
 			case 0:
@@ -69,6 +75,7 @@ public class RoomManager : MonoBehaviour {
 						room.OpenDoor(3, doorOpenedMat);
 					}
 					if (IsInGap(roomList[5].rotateTarget.transform.eulerAngles, Vector3.zero)) {
+
 						room.OpenDoor(5, doorOpenedMat);
 					}
 				}
@@ -84,10 +91,24 @@ public class RoomManager : MonoBehaviour {
 						room.OpenDoor(4, doorOpenedMat);
 					}
 				}
+				if (IsInGap(eulerAngle, new Vector3(0, 270, 0))) {
+					if (IsInGap(roomList[4].rotateTarget.transform.eulerAngles, Vector3.zero)) {
+						room.OpenDoor(4, doorOpenedMat);
+					}
+
+					if (IsInGap(roomList[5].rotateTarget.transform.eulerAngles, Vector3.zero)) {
+						room.OpenDoor(3, doorOpenedMat);
+					}
+				}
 				break;
 			case 4:
 				if (IsInGap(eulerAngle, new Vector3(0, 0, 0))) {
 					room.OpenDoor(2, doorOpenedMat);
+				}
+				if (IsInGap(eulerAngle, new Vector3(270, 180, 0))) {
+					if (IsInGap(roomList[6].rotateTarget.transform.eulerAngles, new Vector3(90, 0, 0))) {
+						room.OpenDoor(2, doorOpenedMat);
+					}
 				}
 				break;
 			case 5:
@@ -114,38 +135,61 @@ public class RoomManager : MonoBehaviour {
 				}
 				break;
 			case 6:
-				if (IsInGap(eulerAngle, new Vector3(0, 0, 0))) {
-					if (IsInGap(roomList[7].rotateTarget.transform.eulerAngles, new Vector3(0, 0, 0))) {
+				if (IsInGap(eulerAngle, new Vector3(0, 90, 0))) {
+					if (IsInGap(roomList[7].rotateTarget.transform.eulerAngles, new Vector3(0, 180, 0))) {
 						room.OpenDoor(2, doorOpenedMat);
 					}
-					if (IsInGap(roomList[7].rotateTarget.transform.eulerAngles, new Vector3(0, 90, 0))) {
+
+					room.OpenDoor(5, doorOpenedMat);
+
+				}
+				if (IsInGap(eulerAngle, new Vector3(90, 0, 0))) {
+					if (IsInGap(roomList[7].rotateTarget.transform.eulerAngles, new Vector3(0, 180, 0))) {
+						room.OpenDoor(5, doorOpenedMat);
+					}
+					if (IsInGap(roomList[4].rotateTarget.transform.eulerAngles, new Vector3(270, 180, 0))) {
+						room.OpenDoor(2, doorOpenedMat);
+					}
+				}
+				if (IsInGap(eulerAngle, new Vector3(180, 270, 180))) {
+					if (IsInGap(roomList[7].rotateTarget.transform.eulerAngles, new Vector3(0, 180, 0))) {
 						room.OpenDoor(2, doorOpenedMat);
 					}
 				}
 				break;
 			case 7:
-				if (IsInGap(eulerAngle, new Vector3(0, 0, 0))) {
-					room.OpenDoor(5, doorOpenedMat);
-					if (IsInGap(roomList[6].rotateTarget.transform.eulerAngles, new Vector3(0, 0, 0))) {
+				// if (IsInGap(eulerAngle, new Vector3(0, 90, 0))) {
+				// 	if (IsInGap(roomList[6].rotateTarget.transform.eulerAngles, new Vector3(0, 90, 0))) {
+				// 		room.OpenDoor(3, doorOpenedMat);
+				// 	}
+				// }
+				if (IsInGap(eulerAngle, new Vector3(0, 180, 0))) {
+					if (IsInGap(roomList[8].rotateTarget.transform.eulerAngles, new Vector3(0, 0, 0))) {
 						room.OpenDoor(3, doorOpenedMat);
 					}
-				}
-				if (IsInGap(eulerAngle, new Vector3(0, 90, 0))) {
-					if (IsInGap(roomList[6].rotateTarget.transform.eulerAngles, new Vector3(0, 0, 0))) {
+					if (IsInGap(roomList[6].rotateTarget.transform.eulerAngles, new Vector3(0, 90, 0))) {
+						room.OpenDoor(5, doorOpenedMat);
+					}
+					if (IsInGap(roomList[6].rotateTarget.transform.eulerAngles, new Vector3(90, 0, 0))) {
 						room.OpenDoor(5, doorOpenedMat);
 					}
 				}
 				if (IsInGap(eulerAngle, new Vector3(0, 270, 0))) {
-					if (IsInGap(roomList[6].rotateTarget.transform.eulerAngles, new Vector3(0, 0, 0))) {
-						room.OpenDoor(3, doorOpenedMat);
+					if (IsInGap(roomList[8].rotateTarget.transform.eulerAngles, new Vector3(0, 0, 0))) {
+						room.OpenDoor(5, doorOpenedMat);
 					}
 				}
 				break;
 			case 8:
 				if (IsInGap(eulerAngle, new Vector3(0, 0, 0))) {
-					room.OpenDoor(4, doorOpenedMat);
 					if (IsInGap(roomList[5].rotateTarget.transform.eulerAngles, new Vector3(0, 0, 0))) {
 						room.OpenDoor(1, doorOpenedMat);
+					}
+					if (IsInGap(roomList[7].rotateTarget.transform.eulerAngles, new Vector3(0, 270, 0))) {
+						room.OpenDoor(3, doorOpenedMat);
+					}
+					if (IsInGap(roomList[7].rotateTarget.transform.eulerAngles, new Vector3(0, 180, 0))) {
+						room.OpenDoor(3, doorOpenedMat);
 					}
 				}
 				if (IsInGap(eulerAngle, new Vector3(0, 90, 0))) {
@@ -162,6 +206,7 @@ public class RoomManager : MonoBehaviour {
 					if (IsInGap(roomList[5].rotateTarget.transform.eulerAngles, new Vector3(0, 270, 0))) {
 						room.OpenDoor(1, doorOpenedMat);
 					}
+
 				}
 				break;
 

@@ -80,8 +80,9 @@ public class Room : MonoBehaviour {
 
 	public void OnRoomIn() {
 		Debug.Log("Enter " + transform.name);
-		manager.CheckDoorState(roomNo);
+
 		player.EnterRoom(this);
+		manager.CheckDoorState(roomNo);
 	}
 
 	private void Awake() {
@@ -112,7 +113,7 @@ public class Room : MonoBehaviour {
 	// }
 
 	public void HideWall() {
-		Debug.Log("Trigger Hide Wall");
+		// Debug.Log("Trigger Hide Wall");
 		foreach (var item in hidenWalls) {
 			var mesh = item.GetComponent<MeshRenderer>();
 			if (mesh != null) mesh.enabled = true;
@@ -134,7 +135,7 @@ public class Room : MonoBehaviour {
 
 	IEnumerator RotateRoutine(ERotateAxis axis, int delta) {
 		_IsPlayingAnim = true;
-		player.Floating();
+		// player.Floating();
 		int value = 0;
 		while (value < 90 && value > -90) {
 			yield return null;
@@ -183,7 +184,7 @@ public class Room : MonoBehaviour {
 		}
 
 		HideWall();
-		player.UnFloating();
+		// player.UnFloating();
 		manager.CheckDoorState(roomNo);
 		_IsPlayingAnim = false;
 	}

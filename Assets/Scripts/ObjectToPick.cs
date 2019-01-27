@@ -23,6 +23,9 @@ public class ObjectToPick : MonoBehaviour {
 		}
 
 		flame.SetActive(false);
+
+		// var randomVector = new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+		// GetComponent<Rigidbody>().AddForce(randomVector.normalized * 100f);
 	}
 
 	public int spaceRequired = 1;
@@ -48,6 +51,7 @@ public class ObjectToPick : MonoBehaviour {
 		transform.parent = flame.transform.parent;
 		transform.position = flame.transform.position;
 		transform.rotation = flame.transform.rotation;
+
 		var rb = GetComponent<Rigidbody>();
 		if (rb) {
 			rb.Sleep();
@@ -61,10 +65,16 @@ public class ObjectToPick : MonoBehaviour {
 				case 1:
 					roomBelongTo.UnlockDoor(5);
 					break;
-
+				case 2:
+					roomBelongTo.UnlockDoor(3);
+					break;
+				case 3:
+					roomBelongTo.UnlockDoor(2);
+					break;
 			}
 			gameObject.SetActive(false);
 		}
+		roomBelongTo.manager.player.PlaySound();
 	}
 
 	private void Update() {
