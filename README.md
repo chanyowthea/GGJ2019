@@ -11,6 +11,6 @@ When you wake up, you find that you lost one of your stocking, and most of the r
 
 ## Level Design Sketch
 
-![3](https://github.com/chanyowthea/GGJ2019/blob/master/README%20Assets/3.png)
-![4](https://github.com/chanyowthea/GGJ2019/blob/master/README%20Assets/4.png)
+![3](https://github.com/chanyowthea/GGJ2019/blob/master/README%20Assets/3.jpg)
+![4](https://github.com/chanyowthea/GGJ2019/blob/master/README%20Assets/4.jpg)
 ![5](https://github.com/chanyowthea/GGJ2019/blob/master/README%20Assets/5.png)
